@@ -108,7 +108,7 @@ public class App
             Model modelSalle = ModelFactory.createDefaultModel();
             Model modelTemperature = ModelFactory.createDefaultModel();
             String urlFinal;
-            String datasetURL = "http://localhost:3030/ds8";
+            String datasetURL = "http://localhost:3030/dataset";
             String sparqlEndpoint = datasetURL + "/sparql";
             String sparqlUpdate = datasetURL + "/update";
             String graphStore = datasetURL + "/data";
@@ -140,9 +140,16 @@ public class App
                         if(arr.length>3){
                             i=i+1;
                             
+                            modelSalle.createResource(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1))
+                                .addProperty((ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/datalink")),
+                                modelSalle.createResource(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/datalink/data/"+i)
+                                    .addProperty(ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/datalink/data/temp"), ResourceFactory.createTypedLiteral(new Float(nextLine[7])))
+                                    .addProperty(ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/datalink/data/date"), ResourceFactory.createTypedLiteral(new Float(nextLine[1])))
+                                    
+                                    );
 
-                           modelSalle.createResource(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)).addProperty(ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/temperature/"+i),ResourceFactory.createTypedLiteral(new Float(nextLine[7])))
-                           .addProperty(ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/date/"+i), ResourceFactory.createTypedLiteral(new Float(nextLine[1])));
+                          // modelSalle.createResource(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)).addProperty(ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/temperature/"+i),ResourceFactory.createTypedLiteral(new Float(nextLine[7])))
+                          // .addProperty(ResourceFactory.createProperty(urldebut+arr[2].substring(1)+"ET"+"/"+arr[3].substring(1)+"/date/"+i), ResourceFactory.createTypedLiteral(new Float(nextLine[1])));
 
 
                         }
@@ -221,7 +228,7 @@ public class App
                 if(link.text().contains(".nt")){
                     Model model = ModelFactory.createDefaultModel();
                     model.read(url+link.text());
-                    String datasetURL = "http://localhost:3030/ds8";
+                    String datasetURL = "http://localhost:3030/dataset";
                     String sparqlEndpoint = datasetURL + "/sparql";
                     String sparqlUpdate = datasetURL + "/update";
                     String graphStore = datasetURL + "/data";
